@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="sysdb_oficial" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>SYSDB</jta-data-source>
+        <class>dominios.Endereco</class>
+        <class>dominios.Atividade</class>
+        <class>dominios.Pessoa</class>
+        <class>dominios.CicloDetalhe</class>
+        <class>dominios.Funcionario</class>
+        <class>dominios.Avaliacao</class>
+        <class>dominios.Funcao</class>
+        <class>dominios.Empresa</class>
+        <class>dominios.Tarefaxatividade</class>
+        <class>dominios.Ciclo</class>
+        <class>dominios.Funcionarioxfuncao</class>
+        <class>dominios.Ativxfuncao</class>
+        <class>dominios.Tarefa</class>
+        <class>dominios.Usuario</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <properties>
+            <property name="eclipselink.logging.level" value="SEVERE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
