@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='ISO-8859-1'?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -19,7 +19,7 @@
                 <meta name="rating" content="general" />
             </f:facet>
 
-            <link rel="StyleSheet" type="text/css" href="./resource/css/estilos.css" media="screen" />
+            <link rel="StyleSheet" type="text/css" href="#{request.contextPath}/resource/css/estilos.css" media="screen" />
 
             <title>
                 <ui:insert name="titulo-pagina" />
@@ -30,14 +30,8 @@
 
         <body>
             <div class="header"></div>
-            <input type="checkbox" class="openSidebarMenu" id="openSidebarMenu" onclick="openNav()" />
-            <label for="openSidebarMenu" class="sidebarIconToggle">
-                <div class="spinner diagonal part-1"></div>
-                <div class="spinner horizontal"></div>
-                <div class="spinner diagonal part-2"></div>
-            </label>
 
-            <div id="sidebarMenu">
+            <div id="sidebarMenu" style="margin-left: 250px">
                 <ul class="sidebarMenuInner">
                     <li>Laudo Ergonomico<span>Lucas S</span></li>
                     <li class="item-menu">
@@ -49,7 +43,7 @@
                 </ul>
             </div>
 
-            <div id="main" class="main">
+            <div id="main" class="main" style="margin-left: 255px">
                 <h:form prependId="false">
                     <ui:insert name="conteudo" />
                 </h:form>

@@ -1,8 +1,9 @@
-<ui:composition template="/WEB-INF/template.xhtml"
+<ui:composition template="../WEB-INF/template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="conteudo">
        <h:form>
@@ -14,9 +15,49 @@
                         
                         <h:outputText value="Razão social" />
                         <p:inputText value="#{empresaBean.empresa.empRazaoSocial}" style="width: 100%" />
+                        
+                        <h:outputText value="Nome Fantasia" />
+                        <p:inputText value="#{empresaBean.empresa.empNomeFantasia}" style="width: 100%" />
+                        
+                        <h:outputText value="CNPJ" />
+                        <p:inputMask value="#{empresaBean.empresa.empCnpj}" mask="99.999.999/9999-99" placeholder="__.___.___/____-__" />
                     </p:panelGrid>
                 </p:panelGrid>
             </p:panel>
+           <br />
+              <p:panel header="Endereço">
+                <p:panelGrid layout="grid" columns="3">
+                    <p:panelGrid layout="grid" columns="1">
+                        <h:outputText value="Endereço" />
+                        <p:inputText value="#{empresaBean.empresa.empEndereco}" style="width: 100%" />
+                        
+                        <h:outputText value="Número" />
+                        <p:inputText value="#{empresaBean.empresa.empNumero}" size="10">
+                            <p:keyFilter mask="pint" />
+                        </p:inputText>
+                        
+                        <h:outputText value="Bairro" />
+                        <p:inputText value="#{empresaBean.empresa.empBairro}" style="width: 100%" />
+                        
+                        <h:outputText value="Cidade" />
+                        <p:inputText value="#{empresaBean.empresa.empCidade}" style="width: 100%" />
+                        
+                        <h:outputText value="UF" />
+                        <p:selectOneMenu value="#{empresaBean.empresa.empUf}" >
+                            <f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+                            <f:selectItems value="#{mainBean.unidadeFederacao}" var="uf" itemLabel="#{uf.cigla}" itemValue="#{uf.cigla}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                </p:panelGrid>
+            </p:panel>
+           <br />
+           <p:toolbar>
+               <p:toolbarGroup>
+                   <p:commandButton type="button" value="Salvar" icon="pi pi-save" styleClass="btn-toolbar" />
+                   <p:commandButton value="Buscar" styleClass="btn-toolbar" icon="pi pi-search" />
+               </p:toolbarGroup>
+           </p:toolbar>
+           <br />
         </h:form>
     </ui:define>
 </ui:composition>

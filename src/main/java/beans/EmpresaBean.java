@@ -1,11 +1,13 @@
 package beans;
 
 import dominios.Empresa;
-import dominios.Endereco;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import utils.UnidadeFederacao;
 
 /**
  *
@@ -19,7 +21,7 @@ public class EmpresaBean implements Serializable {
     
     @PostConstruct
     private void init(){
-        empresa = new Empresa(new Endereco());
+        empresa = new Empresa();
     }
 
     public Empresa getEmpresa() {

@@ -37,9 +37,21 @@ public class Empresa implements Serializable {
     @Size(min = 1, max = 14)
     @Column(name = "EMP_CNPJ")
     private String empCnpj;
-    @JoinColumn(name = "EMP_COD_ENDERECO", referencedColumnName = "END_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Endereco empCodEndereco;
+    @Size(min = 1, max = 150)
+    @Column(name = "EMP_ENDERECO")
+    private String empEndereco;
+    @Size(min = 1, max = 150)
+    @Column(name = "EMP_NUMERO")
+    private Integer empNumero;
+    @Size(min = 1, max = 100)
+    @Column(name = "EMP_CIDADE")
+    private String empCidade;
+    @Size(min = 1, max = 150)
+    @Column(name = "EMP_BAIRRO")
+    private String empBairro;
+    @Size(min = 1, max = 2)
+    @Column(name = "EMP_UF")
+    private String empUf;
 
     public Empresa() {
     }
@@ -54,9 +66,6 @@ public class Empresa implements Serializable {
         this.empCnpj = empCnpj;
     }
 
-    public Empresa(Endereco empCodEndereco) {
-        this.empCodEndereco = empCodEndereco;
-    }
 
     public Integer getEmpId() {
         return empId;
@@ -90,12 +99,44 @@ public class Empresa implements Serializable {
         this.empCnpj = empCnpj;
     }
 
-    public Endereco getEmpCodEndereco() {
-        return empCodEndereco;
+    public String getEmpEndereco() {
+        return empEndereco;
     }
 
-    public void setEmpCodEndereco(Endereco empCodEndereco) {
-        this.empCodEndereco = empCodEndereco;
+    public void setEmpEndereco(String empEndereco) {
+        this.empEndereco = empEndereco;
+    }
+
+    public Integer getEmpNumero() {
+        return empNumero;
+    }
+
+    public void setEmpNumero(Integer empNumero) {
+        this.empNumero = empNumero;
+    }
+
+    public String getEmpCidade() {
+        return empCidade;
+    }
+
+    public void setEmpCidade(String empCidade) {
+        this.empCidade = empCidade;
+    }
+
+    public String getEmpBairro() {
+        return empBairro;
+    }
+
+    public void setEmpBairo(String empBairro) {
+        this.empBairro = empBairro;
+    }
+
+    public String getEmpUf() {
+        return empUf;
+    }
+
+    public void setEmpUf(String empUf) {
+        this.empUf = empUf;
     }
 
     @Override
