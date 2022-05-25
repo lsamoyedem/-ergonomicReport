@@ -7,8 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,19 +26,20 @@ public class Atividade implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_ATIVIDADE")
+    @SequenceGenerator(name = "GEN_ATIVIDADE", sequenceName = "GEN_ATIVIDADE", allocationSize = 1, initialValue = 1)
     @NotNull
     @Column(name = "ATV_ID")
     private Integer atvId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "ATV_DESC")
     private String atvDesc;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ATV_SITU")
-    private Character atvSitu;
+    private String atvSitu = "A";
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "txaCodAtiidade", fetch = FetchType.LAZY)
     private List<Tarefaxatividade> tarefaxatividadeList;
 
@@ -46,7 +50,7 @@ public class Atividade implements Serializable {
         this.atvId = atvId;
     }
 
-    public Atividade(Integer atvId, String atvDesc, Character atvSitu) {
+    public Atividade(Integer atvId, String atvDesc, String atvSitu) {
         this.atvId = atvId;
         this.atvDesc = atvDesc;
         this.atvSitu = atvSitu;
@@ -68,11 +72,11 @@ public class Atividade implements Serializable {
         this.atvDesc = atvDesc;
     }
 
-    public Character getAtvSitu() {
+    public String getAtvSitu() {
         return atvSitu;
     }
 
-    public void setAtvSitu(Character atvSitu) {
+    public void setAtvSitu(String atvSitu) {
         this.atvSitu = atvSitu;
     }
 

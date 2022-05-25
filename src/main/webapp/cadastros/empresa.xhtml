@@ -1,22 +1,117 @@
-<ui:composition template="/WEB-INF/template.xhtml"
+<ui:composition template="../WEB-INF/template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="conteudo">
-       <h:form>
+        <h:form id="form1">
+            <p:focus />
+            <p:growl id="mensagem" />
+
             <p:panel header="Dados gerais">
                 <p:panelGrid layout="grid" columns="3">
                     <p:panelGrid layout="grid" columns="1">
                         <h:outputText value="Código" />
-                        <p:inputText value="#{empresaBean.empresa.empId}" size="10" disabled="true" />
-                        
-                        <h:outputText value="Razão social" />
-                        <p:inputText value="#{empresaBean.empresa.empRazaoSocial}" style="width: 100%" />
+                        <p:inputText value="#{empresaBean.crudObj.empId}" size="10" disabled="true" />
+
+                        <p:outputLabel value="Razão social" for="@next" />
+                        <p:inputText value="#{empresaBean.crudObj.empRazaoSocial}" style="width: 100%" maxlength="100" required="true" />
+
+                        <p:outputLabel value="Nome Fantasia" for="@next" />
+                        <p:inputText value="#{empresaBean.crudObj.empNomeFantasia}" style="width: 100%" maxlength="200" />
+
+                        <p:outputLabel value="CNPJ" for="@next" />
+                        <p:inputMask value="#{empresaBean.crudObj.empCnpj}" mask="99.999.999/9999-99" converter="NumberToStringConv" placeholder="__.___.___/____-__" required="true" />
                     </p:panelGrid>
                 </p:panelGrid>
             </p:panel>
+            <br />
+            <p:panel header="Endereço">
+                <p:panelGrid layout="grid" columns="3">
+                    <p:panelGrid layout="grid" columns="1">
+                        <p:outputLabel value="Endereço" />
+                        <p:inputText value="#{empresaBean.crudObj.empEndereco}" style="width: 100%" maxlength="150" />
+
+                        <p:outputLabel value="Número" />
+                        <p:inputText value="#{empresaBean.crudObj.empNumero}" size="10">
+                            <p:keyFilter mask="pint" />
+                        </p:inputText>
+
+                        <p:outputLabel value="Bairro" />
+                        <p:inputText value="#{empresaBean.crudObj.empBairro}" style="width: 100%" maxlength="150" />
+
+                        <p:outputLabel value="Cidade" />
+                        <p:inputText value="#{empresaBean.crudObj.empCidade}" style="width: 100%" maxlength="100" />
+
+                        <p:outputLabel value="UF" />
+                        <p:selectOneMenu value="#{empresaBean.crudObj.empUf}" >
+                            <f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+                            <f:selectItems value="#{mainBean.unidadeFederacao}" var="uf" itemLabel="#{uf.cigla}" itemValue="#{uf.cigla}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                </p:panelGrid>
+            </p:panel>
+
+            <br />
+
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Salvar" styleClass="btn-toolbar" process="@form" icon="pi pi-save" update=":form1:mensagem @form" actionListener="#{empresaBean.salvar()}" />
+                    <p:commandButton value="Excluir" styleClass="btn-toolbar" icon="pi pi-trash" update="@form" process="@this" actionListener="#{empresaBean.excluir()}" disabled="#{!empresaBean.editando}" />
+                    <p:commandButton value="Limpar" process="@this" update="@form" styleClass="btn-toolbar" icon="pi pi-ban" actionListener="#{empresaBean.limpar()}" />
+                    <p:commandButton value="Buscar" styleClass="btn-toolbar" icon="pi pi-search" update=":form2:idDlgBscEmpresa" process="@this" actionListener="#{empresaBean.abrirPesquisa()}" />
+                </p:toolbarGroup>
+            </p:toolbar>
+            <br />
+        </h:form>
+
+        <h:form id="form2">
+            <p:dialog widgetVar="dlgPesquisa" header="Pesquisa de Empresa" modal="true" draggable="false" width="95%" height="600">
+                <h:panelGroup id="idDlgBscEmpresa">
+                    <p:panel header="Filtros">
+                        <p:panelGrid layout="grid" columns="3">
+                            <p:panelGrid layout="grid" columns="1">
+                                <h:outputText value="Código" />
+                                <p:inputText value="#{empresaBean.filtroId}" size="10">
+                                    <p:keyFilter mask="pint" />
+                                </p:inputText>
+
+                                <p:outputLabel value="Razão social" for="@next" />
+                                <p:inputText value="#{empresaBean.filtroRazaoSocial}" style="width: 100%" maxlength="100" />
+                            </p:panelGrid>
+                        </p:panelGrid>
+
+                        <f:facet name="footer">
+                            <div class="right">
+                                <p:commandButton value="Pesquisar" process="@form" icon="pi pi-search" styleClass="btn-toolbar" update=":form1:mensagem :form2:dados" actionListener="#{empresaBean.pesquisar()}" />
+                                <p:commandButton value="Limpar" process="@this" update=":form2:idDlgBscEmpresa" styleClass="btn-toolbar" icon="pi pi-ban" actionListener="#{empresaBean.limparPesquisa()}" />
+                            </div>
+                        </f:facet>
+                    </p:panel>
+
+                    <br />
+
+                    <p:dataTable id="dados" value="#{empresaBean.crudObjFiltrados}" var="item" rowKey="#{item.empId}"
+                                 selection="#{empresaBean.crudObjSelecionado}" selectionMode="single">
+                        <p:ajax event="rowDblselect" listener="#{empresaBean.confirmaPesquisa()}" update=":form1:mensagem :form1" />
+
+                        <p:column headerText="Código" width="100">
+                            <h:outputText value="#{item.empId}" />
+                        </p:column>
+
+                        <p:column headerText="Razão social">
+                            <h:outputText value="#{item.empRazaoSocial}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Confirmar" process="@form" styleClass="btn-toolbar" icon="pi pi-check" update=":form1:mensagem :form1" actionListener="#{empresaBean.confirmaPesquisa()}" />
+                    <p:commandButton value="Fechar" process="@this" styleClass="btn-toolbar" icon="pi pi-ban" onclick="PF('dlgPesquisa').hide()" />
+                </f:facet>
+            </p:dialog>
         </h:form>
     </ui:define>
 </ui:composition>

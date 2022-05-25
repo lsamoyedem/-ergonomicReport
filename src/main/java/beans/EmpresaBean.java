@@ -1,11 +1,16 @@
 package beans;
 
 import dominios.Empresa;
-import dominios.Endereco;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import services.BaseService;
+import services.EmpresaService;
+import utils.Filtros;
 
 /**
  *
@@ -13,20 +18,59 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class EmpresaBean implements Serializable {
-    
-    private Empresa empresa;
-    
+public class EmpresaBean extends BaseCrud<Empresa> implements Serializable {
+
+    @EJB
+    private BaseService bs;
+    @EJB
+    private EmpresaService es;
+
+    private Integer filtroId;
+    private String filtroRazaoSocial;
+
     @PostConstruct
-    private void init(){
-        empresa = new Empresa(new Endereco());
+    private void init() {
+        limpar();
     }
 
-    public Empresa getEmpresa() {
-        return empresa;
+    public void pesquisar() {
+        List<Filtros> filtros = new ArrayList<>();
+        filtros.add(new Filtros("EMP_ID", filtroId));
+        filtros.add(new Filtros("EMP_RAZAO_SOCIAL", filtroRazaoSocial, true));
+        setCrudObjFiltrados(es.buscaEmpresa(filtros));
+        super.pesquisar();
     }
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
+    @Override
+    public void limparPesquisa() {
+        super.limparPesquisa();
+        filtroId = null;
+        filtroRazaoSocial = null;
+    }
+
+    public Integer getFiltroId() {
+        return filtroId;
+    }
+
+    public void setFiltroId(Integer filtroId) {
+        this.filtroId = filtroId;
+    }
+
+    public String getFiltroRazaoSocial() {
+        return filtroRazaoSocial;
+    }
+
+    public void setFiltroRazaoSocial(String filtroRazaoSocial) {
+        this.filtroRazaoSocial = filtroRazaoSocial;
+    }
+
+    @Override
+    public Empresa getCrudObj() {
+        return super.getCrudObj();
+    }
+
+    @Override
+    public List<Empresa> getCrudObjFiltrados() {
+        return super.getCrudObjFiltrados();
     }
 }
