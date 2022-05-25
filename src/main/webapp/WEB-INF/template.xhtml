@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?> 
+<?xml version='1.0' encoding='ISO-8859-1'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -40,13 +40,23 @@
                             <span class="item-menu-label">empresa</span>
                         </a>
                     </li>
+                    <li class="item-menu">
+                        <a href="#{request.contextPath}/cadastros/tarefa.xhtml">
+                            <i class="topbar-icon fa fa-fw fa-industry"></i>
+                            <span class="item-menu-label">Tarefa</span>
+                        </a>
+                    </li>
+                    <li class="item-menu">
+                        <a href="#{request.contextPath}/cadastros/atividade.xhtml">
+                            <i class="topbar-icon fa fa-fw fa-industry"></i>
+                            <span class="item-menu-label">Atividade</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
             <div id="main" class="main" style="margin-left: 255px">
-                <h:form prependId="false">
-                    <ui:insert name="conteudo" />
-                </h:form>
+                <ui:insert name="conteudo" />
             </div>
         </body>
 

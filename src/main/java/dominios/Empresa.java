@@ -4,10 +4,10 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,10 +23,12 @@ public class Empresa implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @NotNull
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_EMPRESA")
+    @SequenceGenerator(name = "GEN_EMPRESA", sequenceName = "GEN_EMPRESA", allocationSize = 1, initialValue = 1)
     @Column(name = "EMP_ID")
     private Integer empId;
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "EMP_RAZAO_SOCIAL")
     private String empRazaoSocial;
     @Size(max = 200)
@@ -34,22 +36,21 @@ public class Empresa implements Serializable {
     private String empNomeFantasia;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 14)
+    @Size(min = 14, max = 14)
     @Column(name = "EMP_CNPJ")
     private String empCnpj;
-    @Size(min = 1, max = 150)
+    @Size(max = 150)
     @Column(name = "EMP_ENDERECO")
     private String empEndereco;
-    @Size(min = 1, max = 150)
     @Column(name = "EMP_NUMERO")
     private Integer empNumero;
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "EMP_CIDADE")
     private String empCidade;
-    @Size(min = 1, max = 150)
+    @Size(max = 150)
     @Column(name = "EMP_BAIRRO")
     private String empBairro;
-    @Size(min = 1, max = 2)
+    @Size(max = 2)
     @Column(name = "EMP_UF")
     private String empUf;
 
@@ -65,7 +66,6 @@ public class Empresa implements Serializable {
         this.empRazaoSocial = empRazaoSocial;
         this.empCnpj = empCnpj;
     }
-
 
     public Integer getEmpId() {
         return empId;
@@ -127,7 +127,7 @@ public class Empresa implements Serializable {
         return empBairro;
     }
 
-    public void setEmpBairo(String empBairro) {
+    public void setEmpBairro(String empBairro) {
         this.empBairro = empBairro;
     }
 
