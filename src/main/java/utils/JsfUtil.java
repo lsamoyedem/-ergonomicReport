@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.IOException;
+import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ViewHandler;
@@ -57,6 +58,20 @@ public class JsfUtil {
 
     public static void primeFacesUpdate(String... summary) {
         PrimeFaces.current().ajax().update(summary);
+    }
+
+    public static <T> T getBean(Class<T> c) {
+        String nomeClasse = c.getSimpleName();
+        String primeiraLetraMinuscula = nomeClasse.substring(0, 1).toLowerCase();
+        String nomeBeanEL = String.format("#{%s}", nomeClasse.replaceAll("^.", primeiraLetraMinuscula));
+        return getBean(c, nomeBeanEL);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getBean(Class<T> c, String beanName) {
+        ValueExpression vex
+                = getFC().getApplication().getExpressionFactory().createValueExpression(getFC().getELContext(), beanName, c);
+        return (T) vex.getValue(getFC().getELContext());
     }
 
     public static void refresh() {//F5

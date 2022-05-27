@@ -1,7 +1,7 @@
 package beans;
 
 import dominios.Atividade;
-import dominios.Tarefa;
+import dominios.Funcao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import services.AtividadeService;
-import services.BaseService;
+import services.FuncaoService;
 import utils.Filtros;
 
 /**
@@ -18,28 +18,30 @@ import utils.Filtros;
  */
 @Named
 @ViewScoped
-public class AtividadeBean extends BaseCrud<Atividade> implements Serializable {
+public class FuncaoBean extends BaseCrud<Funcao> implements Serializable {
 
     @EJB
-    private AtividadeService as;
+    private FuncaoService fs;
     @EJB
-    private BaseService bs;
+    private AtividadeService as;
 
     private Integer filtroId;
     private String filtroDescricao;
 
-    private List<Tarefa> tarefas = new ArrayList<>();
+    private List<Atividade> atividades = new ArrayList<>();
 
     @Override
     protected void setup() {
-        tarefas = bs.findAll(Tarefa.class, "tarDesc");
+        List<Filtros> filtros = new ArrayList<>();
+        filtros.add(new Filtros("ATV_SITU", "A"));
+        atividades = as.buscaAtividade(filtros);
     }
 
     public void pesquisar() {
         List<Filtros> filtros = new ArrayList<>();
-        filtros.add(new Filtros("ATV_ID", filtroId));
-        filtros.add(new Filtros("ATV_DESC", filtroDescricao, true));
-        setCrudObjFiltrados(as.buscaAtividade(filtros));
+        filtros.add(new Filtros("FNC_ID", filtroId));
+        filtros.add(new Filtros("FNC_DESC", filtroDescricao, true));
+        setCrudObjFiltrados(fs.buscaFuncao(filtros));
         super.pesquisar();
     }
 
@@ -66,21 +68,21 @@ public class AtividadeBean extends BaseCrud<Atividade> implements Serializable {
         this.filtroDescricao = filtroDescricao;
     }
 
-    public List<Tarefa> getTarefas() {
-        return tarefas;
+    public List<Atividade> getAtividades() {
+        return atividades;
     }
 
-    public void setTarefas(List<Tarefa> tarefas) {
-        this.tarefas = tarefas;
+    public void setAtividades(List<Atividade> atividades) {
+        this.atividades = atividades;
     }
 
     @Override
-    public Atividade getCrudObj() {
+    public Funcao getCrudObj() {
         return super.getCrudObj(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
     @Override
-    public List<Atividade> getCrudObjFiltrados() {
+    public List<Funcao> getCrudObjFiltrados() {
         return super.getCrudObjFiltrados(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 }

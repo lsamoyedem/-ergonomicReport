@@ -1,11 +1,11 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <f:view encoding="ISO-8859-1">
+    <f:view encoding="UTF-8">
         <h:head>
             <f:facet name="first">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -19,6 +19,7 @@
                 <meta name="rating" content="general" />
             </f:facet>
 
+            <script type="text/javascript" src="#{request.contextPath}/resource/js/javascript.js" />
             <link rel="StyleSheet" type="text/css" href="#{request.contextPath}/resource/css/estilos.css" media="screen" />
 
             <title>
@@ -33,24 +34,45 @@
 
             <div id="sidebarMenu" style="margin-left: 250px">
                 <ul class="sidebarMenuInner">
-                    <li>Laudo Ergonomico<span>Lucas S</span></li>
-                    <li class="item-menu">
-                        <a href="#{request.contextPath}/cadastros/empresa.xhtml">
+                    <li>Laudo Ergonômico<span>Lucas S</span></li>
+                    <li>
+                        <a href="#">
                             <i class="topbar-icon fa fa-fw fa-industry"></i>
-                            <span class="item-menu-label">empresa</span>
+                            <span class="item-menu-label">Cadastros</span>
                         </a>
-                    </li>
-                    <li class="item-menu">
-                        <a href="#{request.contextPath}/cadastros/tarefa.xhtml">
-                            <i class="topbar-icon fa fa-fw fa-industry"></i>
-                            <span class="item-menu-label">Tarefa</span>
-                        </a>
-                    </li>
-                    <li class="item-menu">
-                        <a href="#{request.contextPath}/cadastros/atividade.xhtml">
-                            <i class="topbar-icon fa fa-fw fa-industry"></i>
-                            <span class="item-menu-label">Atividade</span>
-                        </a>
+
+                        <ul class="sub-menu clearfix">
+                            <li class="item-menu">
+                                <a href="#{request.contextPath}/cadastros/empresa.xhtml">
+                                    <i class="topbar-icon fa fa-fw fa-industry"></i>
+                                    <span class="item-menu-label">empresa</span>
+                                </a>
+                            </li>
+                            <li class="item-menu">
+                                <a href="#{request.contextPath}/cadastros/tarefa.xhtml">
+                                    <i class="topbar-icon fa fa-fw fa-industry"></i>
+                                    <span class="item-menu-label">Tarefa</span>
+                                </a>
+                            </li>
+                            <li class="item-menu">
+                                <a href="#{request.contextPath}/cadastros/atividade.xhtml">
+                                    <i class="topbar-icon fa fa-fw fa-industry"></i>
+                                    <span class="item-menu-label">Atividade</span>
+                                </a>
+                            </li>
+                            <li class="item-menu">
+                                <a href="#{request.contextPath}/cadastros/funcao.xhtml">
+                                    <i class="topbar-icon fa fa-fw fa-industry"></i>
+                                    <span class="item-menu-label">Função</span>
+                                </a>
+                            </li>
+                            <li class="item-menu">
+                                <a href="#{request.contextPath}/cadastros/funcionario.xhtml">
+                                    <i class="topbar-icon fa fa-fw fa-industry"></i>
+                                    <span class="item-menu-label">Funcionário</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

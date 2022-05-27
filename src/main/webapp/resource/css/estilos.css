@@ -37,7 +37,7 @@ body .ui-inputfield {
     width: 100%;
     max-width: 100%;
     box-shadow: none;
-    background-color: #468ffc;
+    background-color: #304562;
     position: fixed;
     height: 60px!important;
     overflow: hidden;
@@ -46,7 +46,6 @@ body .ui-inputfield {
 .main {
     margin: 0 auto;
     display: block;
-    height: 100%;
     margin-top: 65px;
     margin-left: 5px;
     margin-right: 5px;
@@ -80,7 +79,7 @@ body .ui-inputfield {
     width: 250px;
     margin-top: 60px;
     transform: translateX(-250px);
-    background: linear-gradient(180deg, #451af1 0%, #3853db 100%)
+    background: linear-gradient(180deg, #274976 0%, #304562 100%)
 }
 .sidebarMenuInner{
     margin:0;
@@ -188,6 +187,12 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
 }
 
 .btn-toolbar{
-    width: 120px;
+    width: 120px !important;
+    margin: 0;
     margin-left: 2px !important;
+}
+
+body .ui-state-disabled {
+    opacity: 1;
+    border-color: #cccccc !important;
 }
