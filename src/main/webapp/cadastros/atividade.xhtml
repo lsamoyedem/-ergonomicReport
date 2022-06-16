@@ -41,6 +41,7 @@
                         <p:selectOneMenu value="#{item.txaCodTarefa}" style="width: 100%" converter="sec">
                             <f:selectItem itemValue="#{null}" itemLabel="Selecione" itemDisabled="true" />
                             <f:selectItems value="#{atividadeBean.tarefas}" var="tarefa" itemLabel="#{tarefa.tarDesc}" itemValue="#{tarefa}" />
+                            <p:ajax />
                         </p:selectOneMenu>
                     </p:column>
 

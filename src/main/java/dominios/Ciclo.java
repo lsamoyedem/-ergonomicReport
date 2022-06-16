@@ -1,14 +1,20 @@
 package dominios;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,20 +28,21 @@ public class Ciclo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_CICLO")
+    @SequenceGenerator(name = "GEN_CICLO", sequenceName = "GEN_CICLO", allocationSize = 1, initialValue = 1)
     @NotNull
     @Column(name = "CCL_ID")
     private Integer cclId;
-    @Basic(optional = false)
     @NotNull
-    @Column(name = "CCL_COD_AVAL")
-    private int cclCodAval;
+    @JoinColumn(name = "CCL_COD_AVAL", referencedColumnName = "AVL_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Avaliacao cclCodAval;
     @Basic(optional = false)
     @NotNull
     @Column(name = "CCL_SEQ")
     private int cclSeq;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cdCodCiclo", fetch = FetchType.LAZY)
-    private List<CicloDetalhe> CicloDetalheList;
+    private List<CicloDetalhe> cicloDetalheList = new ArrayList<>();
 
     public Ciclo() {
     }
@@ -44,8 +51,7 @@ public class Ciclo implements Serializable {
         this.cclId = cclId;
     }
 
-    public Ciclo(Integer cclId, int cclCodAval, int cclSeq) {
-        this.cclId = cclId;
+    public Ciclo(Avaliacao cclCodAval, int cclSeq) {
         this.cclCodAval = cclCodAval;
         this.cclSeq = cclSeq;
     }
@@ -58,11 +64,11 @@ public class Ciclo implements Serializable {
         this.cclId = cclId;
     }
 
-    public int getCclCodAval() {
+    public Avaliacao getCclCodAval() {
         return cclCodAval;
     }
 
-    public void setCclCodAval(int cclCodAval) {
+    public void setCclCodAval(Avaliacao cclCodAval) {
         this.cclCodAval = cclCodAval;
     }
 
@@ -75,11 +81,21 @@ public class Ciclo implements Serializable {
     }
 
     public List<CicloDetalhe> getCicloDetalheList() {
-        return CicloDetalheList;
+        return cicloDetalheList;
     }
 
     public void setCicloDetalheList(List<CicloDetalhe> CicloDetalheList) {
-        this.CicloDetalheList = CicloDetalheList;
+        this.cicloDetalheList = CicloDetalheList;
+    }
+
+    public void adicionarNovoCicloDetalhe() {
+        CicloDetalhe ciclo = new CicloDetalhe();
+        ciclo.setCdCodCiclo(this);
+        cicloDetalheList.add(ciclo);
+    }
+
+    public void removeCicloDetalhe(int index) {
+        cicloDetalheList.remove(index);
     }
 
     @Override
