@@ -5,6 +5,10 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <ui:define name="titulo-pagina">
+        Empresa
+    </ui:define>
+
     <ui:define name="conteudo">
         <h:form id="form1">
             <p:focus />
@@ -23,7 +27,12 @@
                         <p:inputText value="#{empresaBean.crudObj.empNomeFantasia}" style="width: 100%" maxlength="200" />
 
                         <p:outputLabel value="CNPJ" for="@next" />
-                        <p:inputMask value="#{empresaBean.crudObj.empCnpj}" mask="99.999.999/9999-99" converter="NumberToStringConv" placeholder="__.___.___/____-__" required="true" />
+                        <p:inputMask value="#{empresaBean.crudObj.empCnpj}" mask="99.999.999/9999-99"
+                                     converter="NumberToStringConv" validator="CnpjValidator"
+                                     placeholder="__.___.___/____-__"
+                                     required="true">
+                            <p:ajax update=":form1:mensagem" />
+                        </p:inputMask>
                     </p:panelGrid>
                 </p:panelGrid>
             </p:panel>

@@ -1,16 +1,21 @@
 package dominios;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +32,8 @@ public class Funcionario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_FUNCIONARIO")
+    @SequenceGenerator(name = "GEN_FUNCIONARIO", sequenceName = "GEN_FUNCIONARIO", allocationSize = 1, initialValue = 1)
     @NotNull
     @Column(name = "FUN_ID")
     private Integer funId;
@@ -45,8 +52,8 @@ public class Funcionario implements Serializable {
     @JoinColumn(name = "FUN_COD_PESSOA", referencedColumnName = "PES_ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Pessoa funCodPessoa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fxfCodFunc", fetch = FetchType.LAZY)
-    private List<Funcionarioxfuncao> funcionarioxfuncaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fxfCodFunc", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Funcionarioxfuncao> funcionarioxfuncaoList = new ArrayList<>();
 
     public Funcionario() {
     }
@@ -109,6 +116,24 @@ public class Funcionario implements Serializable {
 
     public void setFuncionarioxfuncaoList(List<Funcionarioxfuncao> funcionarioxfuncaoList) {
         this.funcionarioxfuncaoList = funcionarioxfuncaoList;
+    }
+
+    public void addNewFuncao() {
+        Funcionarioxfuncao fxf = new Funcionarioxfuncao(this);
+        this.funcionarioxfuncaoList.add(fxf);
+    }
+
+    public void removeFuncao(int index) {
+        this.funcionarioxfuncaoList.remove(index);
+    }
+
+    public List<Atividade> getAtividade(Date data) {
+        for (Funcionarioxfuncao fxf : funcionarioxfuncaoList) {
+            if (data.compareTo(fxf.getFxfDataIni()) >= 0 && (fxf.getFxfDataFim() == null || data.compareTo(fxf.getFxfDataFim()) <= 0)) {
+                return fxf.getFxfCodFuncao().getAtivxfuncaoList().stream().map(f -> f.getAxfCodAtividade()).collect(Collectors.toList());
+            }
+        }
+        return null;
     }
 
     @Override

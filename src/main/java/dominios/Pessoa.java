@@ -5,10 +5,10 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,7 +25,8 @@ public class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_PESSOA")
+    @SequenceGenerator(name = "GEN_PESSOA", sequenceName = "GEN_PESSOA", allocationSize = 1, initialValue = 1)
     @NotNull
     @Column(name = "PES_ID")
     private Integer pesId;
@@ -40,9 +41,20 @@ public class Pessoa implements Serializable {
     @Size(max = 11)
     @Column(name = "PES_CPF")
     private String pesCpf;
-    @JoinColumn(name = "PES_COD_ENDERECO", referencedColumnName = "END_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Endereco pesCodEndereco;
+    @Size(max = 150)
+    @Column(name = "PES_ENDERECO")
+    private String pesEndereco;
+    @Column(name = "PES_NUMERO")
+    private Integer pesNumero;
+    @Size(max = 100)
+    @Column(name = "PES_CIDADE")
+    private String pesCidade;
+    @Size(max = 150)
+    @Column(name = "PES_BAIRRO")
+    private String pesBairro;
+    @Size(max = 2)
+    @Column(name = "PES_UF")
+    private String pesUf;
 
     public Pessoa() {
     }
@@ -88,12 +100,44 @@ public class Pessoa implements Serializable {
         this.pesCpf = pesCpf;
     }
 
-    public Endereco getPesCodEndereco() {
-        return pesCodEndereco;
+    public String getPesEndereco() {
+        return pesEndereco;
     }
 
-    public void setPesCodEndereco(Endereco pesCodEndereco) {
-        this.pesCodEndereco = pesCodEndereco;
+    public void setPesEndereco(String pesEndereco) {
+        this.pesEndereco = pesEndereco;
+    }
+
+    public Integer getPesNumero() {
+        return pesNumero;
+    }
+
+    public void setPesNumero(Integer pesNumero) {
+        this.pesNumero = pesNumero;
+    }
+
+    public String getPesCidade() {
+        return pesCidade;
+    }
+
+    public void setPesCidade(String pesCidade) {
+        this.pesCidade = pesCidade;
+    }
+
+    public String getPesBairro() {
+        return pesBairro;
+    }
+
+    public void setPesBairro(String pesBairro) {
+        this.pesBairro = pesBairro;
+    }
+
+    public String getPesUf() {
+        return pesUf;
+    }
+
+    public void setPesUf(String pesUf) {
+        this.pesUf = pesUf;
     }
 
     @Override

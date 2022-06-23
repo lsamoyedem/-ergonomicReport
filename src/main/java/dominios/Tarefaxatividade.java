@@ -5,9 +5,12 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -21,14 +24,15 @@ public class Tarefaxatividade implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_TAREFAXATIVIDADE")
+    @SequenceGenerator(name = "GEN_TAREFAXATIVIDADE", sequenceName = "GEN_TAREFAXATIVIDADE", allocationSize = 1, initialValue = 1)
     @NotNull
     @Column(name = "TXA_ID")
     private Integer txaId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "TXA_SITU")
-    private Character txaSitu;
+    private String txaSitu;
     @JoinColumn(name = "TXA_COD_ATIIDADE", referencedColumnName = "ATV_ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Atividade txaCodAtiidade;
@@ -43,7 +47,7 @@ public class Tarefaxatividade implements Serializable {
         this.txaId = txaId;
     }
 
-    public Tarefaxatividade(Integer txaId, Character txaSitu) {
+    public Tarefaxatividade(Integer txaId, String txaSitu) {
         this.txaId = txaId;
         this.txaSitu = txaSitu;
     }
@@ -56,11 +60,11 @@ public class Tarefaxatividade implements Serializable {
         this.txaId = txaId;
     }
 
-    public Character getTxaSitu() {
+    public String getTxaSitu() {
         return txaSitu;
     }
 
-    public void setTxaSitu(Character txaSitu) {
+    public void setTxaSitu(String txaSitu) {
         this.txaSitu = txaSitu;
     }
 

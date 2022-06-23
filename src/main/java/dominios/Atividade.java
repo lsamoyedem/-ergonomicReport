@@ -1,6 +1,7 @@
 package dominios;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -40,8 +41,8 @@ public class Atividade implements Serializable {
     @NotNull
     @Column(name = "ATV_SITU")
     private String atvSitu = "A";
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "txaCodAtiidade", fetch = FetchType.LAZY)
-    private List<Tarefaxatividade> tarefaxatividadeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "txaCodAtiidade", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Tarefaxatividade> tarefaxatividadeList = new ArrayList<>();
 
     public Atividade() {
     }
@@ -86,6 +87,17 @@ public class Atividade implements Serializable {
 
     public void setTarefaxatividadeList(List<Tarefaxatividade> tarefaxatividadeList) {
         this.tarefaxatividadeList = tarefaxatividadeList;
+    }
+
+    public void addNewTarefa() {
+        Tarefaxatividade txa = new Tarefaxatividade();
+        txa.setTxaSitu("A");
+        txa.setTxaCodAtiidade(this);
+        tarefaxatividadeList.add(txa);
+    }
+
+    public void removeTarefa(int index) {
+        tarefaxatividadeList.remove(index);
     }
 
     @Override

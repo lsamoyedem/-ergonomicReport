@@ -4,9 +4,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -20,6 +23,8 @@ public class Ativxfuncao implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_ATIVXFUNCAO")
+    @SequenceGenerator(name = "GEN_ATIVXFUNCAO", sequenceName = "GEN_ATIVXFUNCAO", allocationSize = 1, initialValue = 1)
     @NotNull
     @Column(name = "AXF_ID")
     private Integer axfId;
@@ -31,6 +36,10 @@ public class Ativxfuncao implements Serializable {
     private Funcao axfCodFuncao;
 
     public Ativxfuncao() {
+    }
+
+    public Ativxfuncao(Funcao axfCodFuncao) {
+        this.axfCodFuncao = axfCodFuncao;
     }
 
     public Ativxfuncao(Integer axfId) {

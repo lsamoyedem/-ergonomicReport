@@ -1,6 +1,5 @@
 package beans;
 
-import dominios.Endereco;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +20,7 @@ public class MainBean implements Serializable {
     @EJB
     BaseService bs;
 
-    private List<UnidadeFederacao>  unidadeFederacao = Arrays.asList(UnidadeFederacao.values());
+    private List<UnidadeFederacao> unidadeFederacao = Arrays.asList(UnidadeFederacao.values());
 
     public List<UnidadeFederacao> getUnidadeFederacao() {
         return unidadeFederacao;

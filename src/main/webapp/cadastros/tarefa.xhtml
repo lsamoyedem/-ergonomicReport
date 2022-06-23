@@ -5,6 +5,10 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <ui:define name="titulo-pagina">
+        Tarefa
+    </ui:define>
+
     <ui:define name="conteudo">
         <h:form id="form1">
             <p:focus />
@@ -19,10 +23,9 @@
                         <p:outputLabel value="Descrição" for="@next" />
                         <p:inputText value="#{tarefaBean.crudObj.tarDesc}" style="width: 100%" maxlength="200" required="true" />
 
-                        <p:outputLabel value="Grau de perigulosidade" for="grau" />
-                        <p:inputText id="grau" value="#{tarefaBean.crudObj.tarGrauPerigo}" required="true" />
-                        <p:slider for="grau" range="false" maxValue="10" minValue="1" />
-
+                        <p:outputLabel value="Grau de periculosidade" for="grau" />
+                        <p:inputNumber id="grau" value="#{tarefaBean.crudObj.tarGrauPerigo}" required="true" style="width: 300px" minValue="1" maxValue="10" />
+                        <p:slider for="grau" minValue="1" maxValue="10" step="1" style="width: 300px" />
                     </p:panelGrid>
                 </p:panelGrid>
             </p:panel>
@@ -41,7 +44,7 @@
         </h:form>
 
         <h:form id="form2">
-            <p:dialog widgetVar="dlgPesquisa" header="Pesquisa de Empresa" modal="true" draggable="false" width="95%" height="600">
+            <p:dialog widgetVar="dlgPesquisa" header="Pesquisa de Tarefas" modal="true" draggable="false" width="95%" height="600">
                 <h:panelGroup id="idDlgBscEmpresa">
                     <p:panel header="Filtros">
                         <p:panelGrid layout="grid" columns="3">
@@ -51,7 +54,7 @@
                                     <p:keyFilter mask="pint" />
                                 </p:inputText>
 
-                                <p:outputLabel value="Razão social" for="@next" />
+                                <p:outputLabel value="Descrição" for="@next" />
                                 <p:inputText value="#{tarefaBean.filtroDescricao}" style="width: 100%" maxlength="100" />
                             </p:panelGrid>
                         </p:panelGrid>
@@ -78,7 +81,7 @@
                             <h:outputText value="#{item.tarDesc}" />
                         </p:column>
 
-                        <p:column headerText="Grau Perigulosidade">
+                        <p:column headerText="Grau periculosidade">
                             <h:outputText value="#{item.tarGrauPerigo}" />
                         </p:column>
                     </p:dataTable>
