@@ -11,6 +11,7 @@ import javax.inject.Named;
 import services.AtividadeService;
 import services.FuncaoService;
 import utils.Filtros;
+import utils.JsfUtil;
 
 /**
  *
@@ -29,6 +30,15 @@ public class FuncaoBean extends BaseCrud<Funcao> implements Serializable {
     private String filtroDescricao;
 
     private List<Atividade> atividades = new ArrayList<>();
+
+    @Override
+    public void salvar() {
+        if (getCrudObj().getAtivxfuncaoList().isEmpty()) {
+            JsfUtil.warn("Adicione pelo menos uma atividade");
+            return;
+        }
+        super.salvar();
+    }
 
     @Override
     protected void setup() {

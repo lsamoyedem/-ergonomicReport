@@ -81,6 +81,14 @@ public class AvaliacaoBean extends BaseCrud<Avaliacao> implements Serializable {
         super.pesquisar();
     }
 
+    public void selecionaFuncionario() {
+        if (getCrudObj().getAvlCodFunc() == null) {
+            atividades = ats.buscaAtividade(null);
+        } else {
+            atividades = getCrudObj().getAvlCodFunc().getAtividade(getCrudObj().getAvlData());
+        }
+    }
+
     @Override
     public void limparPesquisa() {
         super.limparPesquisa();
@@ -96,7 +104,7 @@ public class AvaliacaoBean extends BaseCrud<Avaliacao> implements Serializable {
                 if (valor == null) {
                     valor = 0;
                 }
-                tarefaxTempo.put(cicloDetalhe.getCdCodTarefa(), valor + cicloDetalhe.getCdSegundos());
+                tarefaxTempo.put(cicloDetalhe.getCdCodTarefa(), valor + (cicloDetalhe.getCdSegundos()));
             }
         }
 

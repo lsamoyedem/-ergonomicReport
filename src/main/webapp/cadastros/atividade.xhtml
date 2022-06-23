@@ -38,7 +38,7 @@
                 <br />
                 <p:dataTable id="tableTarefa" value="#{atividadeBean.crudObj.tarefaxatividadeList}" var="item" rowIndexVar="index">
                     <p:column headerText="Tarefa">
-                        <p:selectOneMenu value="#{item.txaCodTarefa}" style="width: 100%" converter="sec">
+                        <p:selectOneMenu value="#{item.txaCodTarefa}" style="width: 100%" converter="sec" required="true" requiredMessage="O campo Tarefa é obrigatório">
                             <f:selectItem itemValue="#{null}" itemLabel="Selecione" itemDisabled="true" />
                             <f:selectItems value="#{atividadeBean.tarefas}" var="tarefa" itemLabel="#{tarefa.tarDesc}" itemValue="#{tarefa}" />
                             <p:ajax />

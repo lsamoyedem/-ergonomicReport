@@ -25,127 +25,135 @@
                             <p:ajax />
                         </p:inputText>
 
+                        <p:outputLabel value="Data" for="@next" />
+                        <p:datePicker value="#{avaliacaoBean.crudObj.avlData}" locale="pt_BR" placeholder="__/__/____">
+                            <p:ajax />
+                        </p:datePicker>
+
                         <p:outputLabel value="Funcionário" for="@next" />
                         <p:selectOneMenu value="#{avaliacaoBean.crudObj.avlCodFunc}" style="width: 100%" converter="sec" filter="true" filterMatchMode="contains">
-                            <f:selectItem itemValue="#{null}" itemLabel="Selecione" />
+                            <f:selectItem itemValue="#{null}" itemLabel="Nenhum" />
                             <f:selectItems value="#{avaliacaoBean.funcionario}" var="fun" itemLabel="#{fun.funCodPessoa.pesNome}" itemValue="#{fun}" />
+                            <p:ajax listener="#{avaliacaoBean.selecionaFuncionario()}" update=":form1:panelGeral" />
                         </p:selectOneMenu>
 
                         <p:outputLabel value="Atividade" for="@next" />
                         <p:selectOneMenu value="#{avaliacaoBean.crudObj.avlCodAtividade}" style="width: 100%" converter="sec" required="true" filter="true" filterMatchMode="contains">
                             <f:selectItem itemValue="#{null}" itemLabel="Selecione" />
                             <f:selectItems value="#{avaliacaoBean.atividades}" var="ativi" itemLabel="#{ativi.atvDesc}" itemValue="#{ativi}" />
-                            <p:ajax update=":form1:dataGridCiclo" />
+                            <p:ajax update=":form1:ciclos :form1:result" />
                         </p:selectOneMenu>
-
-
-                        <p:outputLabel value="Data" for="@next" />
-                        <p:datePicker value="#{avaliacaoBean.crudObj.avlData}" locale="pt_BR" placeholder="__/__/____" />
                     </p:panelGrid>
                 </p:panelGrid>
             </p:panel>
 
             <br />
 
-            <p:panel id="ciclos">
-                <p:panelGrid columns="1" layout="grid">
-                    <p:outputLabel value="Tempo total" />
-                    <p:inputMask id="totalSegundosEmDate" value="#{avaliacaoBean.crudObj.totalSegundosEmDate}" mask="99:99:99"
-                                 placeholder="__:__:__" size="12" disabled="true"
-                                 type="tel">
-                        <f:convertDateTime pattern="HH:mm:ss" type="time" />
-                    </p:inputMask>
-                    <br />
-                </p:panelGrid>
-
-                <f:facet name="header">
-                    <p:commandButton value="Adicionar novo ciclo" actionListener="#{avaliacaoBean.crudObj.adicionarNovoCiclo()}" icon="pi pi-plus" update=":form1:dataGridCiclo" process="@this" />
-                </f:facet>
-
-                <p:dataGrid id="dataGridCiclo" columns="1" layout="grid" value="#{avaliacaoBean.crudObj.cicloList}" var="ciclo" rowIndexVar="index">
+            <h:panelGroup id="ciclos">
+                <p:panel rendered="#{avaliacaoBean.crudObj.avlCodAtividade ne null}">
                     <p:panelGrid columns="1" layout="grid">
-                        <h3>#{ciclo.cclSeq}º Ciclo</h3>
-
-                        <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-nopad,ui-g-nopad,ui-g-nopad">
-                            <p:commandButton value="Adicionar tarefa" actionListener="#{ciclo.adicionarNovoCicloDetalhe}" icon="pi pi-plus" update=":form1:ciclos" process="@this" />
-                            <p:commandButton value="Replicar ciclo" actionListener="#{avaliacaoBean.crudObj.replicarCiclo(index)}" icon="pi pi-plus" update=":form1:ciclos" process="@this" />
-                            <p:commandButton value="Excluir ciclo" actionListener="#{avaliacaoBean.crudObj.removerCiclo(index)}" icon="pi pi-trash" update=":form1:ciclos" process="@this" />
-                        </p:panelGrid>
-
-                        <p:dataTable id="dataGridCicloDt" value="#{ciclo.cicloDetalheList}" var="cicloDt" rowIndexVar="indexDetalhe">
-                            <p:column headerText="Tarefa">
-                                <p:selectOneMenu value="#{cicloDt.cdCodTarefa}" style="width: 100%" converter="sec" required="true">
-                                    <f:selectItem itemValue="#{null}" itemLabel="Selecione" itemDisabled="true" />
-                                    <f:selectItems value="#{avaliacaoBean.crudObj.avlCodAtividade.tarefaxatividadeList}" var="tarefa" itemLabel="#{tarefa.txaCodTarefa.tarDesc}" itemValue="#{tarefa.txaCodTarefa}" />
-                                    <p:ajax update=":form1:dataGridCiclo" />
-                                </p:selectOneMenu>
-                            </p:column>
-
-                            <p:column headerText="Grau de Perigulosidade">
-                                <p:outputLabel value="#{cicloDt.grauDePerigulosidade}" />
-                            </p:column>
-
-                            <p:column headerText="Hora inicial">
-                                <p:inputMask id="horaIni" value="#{cicloDt.horaIni}" mask="99:99:99"
-                                             placeholder="__:__:__" size="12"
-                                             type="tel">
-                                    <f:convertDateTime pattern="HH:mm:ss" type="time" />
-                                    <p:ajax listener="#{cicloDt.atualizaSegundos()}" update=":form1:ciclos :form1:mensagem" />
-                                </p:inputMask>
-                            </p:column>
-
-                            <p:column headerText="Hora final">
-                                <p:inputMask id="horaFim" value="#{cicloDt.horaFim}" mask="99:99:99"
-                                             placeholder="__:__:__"  size="12"
-                                             type="tel">
-                                    <f:convertDateTime pattern="HH:mm:ss" type="time" />
-                                    <p:ajax listener="#{cicloDt.atualizaSegundos()}" update=":form1:ciclos :form1:mensagem" />
-                                </p:inputMask>
-                            </p:column>
-
-                            <p:column headerText="Tempo (Segundos)">
-                                <p:inputText value="#{cicloDt.cdSegundos}">
-                                    <p:keyFilter mask="pint" preventPaste="false" />
-                                    <p:ajax update=":form1:ciclos" />
-                                </p:inputText>
-                            </p:column>
-
-                            <p:column headerText="Ação">
-                                <p:commandButton value="Remover" actionListener="#{ciclo.removeCicloDetalhe(indexDetalhe)}" icon="pi pi-trash" update=":form1:ciclos" process="@this" style="background-color: #ff2e2e; border-color: #ff2e2e" />
-                            </p:column>
-                        </p:dataTable>
+                        <p:outputLabel value="Tempo total" />
+                        <p:inputMask id="totalSegundosEmDate" value="#{avaliacaoBean.crudObj.totalSegundosEmDate}" mask="99:99:99"
+                                     placeholder="__:__:__" size="12" disabled="true"
+                                     type="tel">
+                            <f:convertDateTime pattern="HH:mm:ss" type="time" />
+                        </p:inputMask>
+                        <br />
                     </p:panelGrid>
-                </p:dataGrid>
-            </p:panel>
+
+                    <f:facet name="header">
+                        <p:commandButton value="Adicionar novo ciclo" actionListener="#{avaliacaoBean.crudObj.adicionarNovoCiclo()}" icon="pi pi-plus" update=":form1:dataGridCiclo" process="@this" />
+                    </f:facet>
+
+                    <p:dataGrid id="dataGridCiclo" columns="1" layout="grid" value="#{avaliacaoBean.crudObj.cicloList}" var="ciclo" rowIndexVar="index">
+                        <p:panelGrid columns="1" layout="grid">
+                            <h3>#{ciclo.cclSeq}º Ciclo</h3>
+
+                            <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-nopad,ui-g-nopad,ui-g-nopad">
+                                <p:commandButton value="Adicionar tarefa" actionListener="#{ciclo.adicionarNovoCicloDetalhe}" icon="pi pi-plus" update=":form1:ciclos" process="@this" />
+                                <p:commandButton value="Replicar ciclo" actionListener="#{avaliacaoBean.crudObj.replicarCiclo(index)}" icon="pi pi-plus" update=":form1:ciclos" process="@this" />
+                                <p:commandButton value="Excluir ciclo" style="background-color: #ff2e2e; border-color: #ff2e2e" actionListener="#{avaliacaoBean.crudObj.removerCiclo(index)}" icon="pi pi-trash" update=":form1:ciclos" process="@this" />
+                            </p:panelGrid>
+
+                            <p:dataTable id="dataGridCicloDt" value="#{ciclo.cicloDetalheList}" var="cicloDt" rowIndexVar="indexDetalhe">
+                                <p:column headerText="Tarefa">
+                                    <p:selectOneMenu value="#{cicloDt.cdCodTarefa}" style="width: 100%" converter="sec" required="true">
+                                        <f:selectItem itemValue="#{null}" itemLabel="Selecione" itemDisabled="true" />
+                                        <f:selectItems value="#{avaliacaoBean.crudObj.avlCodAtividade.tarefaxatividadeList}" var="tarefa" itemLabel="#{tarefa.txaCodTarefa.tarDesc}" itemValue="#{tarefa.txaCodTarefa}" />
+                                        <p:ajax update=":form1:dataGridCiclo" />
+                                    </p:selectOneMenu>
+                                </p:column>
+
+                                <p:column headerText="Grau de Perigulosidade">
+                                    <p:outputLabel value="#{cicloDt.grauDePerigulosidade}" />
+                                </p:column>
+
+                                <p:column headerText="Hora inicial">
+                                    <p:inputMask id="horaIni" value="#{cicloDt.horaIni}" mask="99:99:99"
+                                                 placeholder="__:__:__" size="12"
+                                                 type="tel">
+                                        <f:convertDateTime pattern="HH:mm:ss" type="time" />
+                                        <p:ajax listener="#{cicloDt.atualizaSegundos()}" update=":form1:ciclos :form1:mensagem" />
+                                    </p:inputMask>
+                                </p:column>
+
+                                <p:column headerText="Hora final">
+                                    <p:inputMask id="horaFim" value="#{cicloDt.horaFim}" mask="99:99:99"
+                                                 placeholder="__:__:__"  size="12"
+                                                 type="tel">
+                                        <f:convertDateTime pattern="HH:mm:ss" type="time" />
+                                        <p:ajax listener="#{cicloDt.atualizaSegundos()}" update=":form1:ciclos :form1:mensagem" />
+                                    </p:inputMask>
+                                </p:column>
+
+                                <p:column headerText="Tempo (Segundos)">
+                                    <p:inputText value="#{cicloDt.cdSegundos}">
+                                        <p:keyFilter mask="pint" preventPaste="false" />
+                                        <p:ajax update=":form1:ciclos" />
+                                    </p:inputText>
+                                </p:column>
+
+                                <p:column headerText="Ação">
+                                    <p:commandButton value="Remover" actionListener="#{ciclo.removeCicloDetalhe(indexDetalhe)}" icon="pi pi-trash" update=":form1:ciclos" process="@this" style="background-color: #ff2e2e; border-color: #ff2e2e" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+                    </p:dataGrid>
+                </p:panel>
+            </h:panelGroup>
+
             <br />
 
-            <p:panel id="result" header="Resultado">
-                <p:panelGrid columns="1" layout="grid">
-                    <p:commandButton value="Atualizar" icon="pi pi-plus" actionListener="#{avaliacaoBean.createBarModel()}" update=":form1:result" process="@this" />
-                    <h:panelGroup id="relat">
-                        <p:panelGrid columns="1" layout="grid">
-                            <p:outputLabel value="Atividade : #{avaliacaoBean.crudObj.avlDesc} - #{avaliacaoBean.crudObj.avlId}" />
-                            <p:outputLabel value="Funcionário avaliado : #{avaliacaoBean.crudObj.funcionarioAvaliado}" />
-                            <p:outputLabel value="Data da Avaliação : #{avaliacaoBean.crudObj.avlData}" />
+            <h:panelGroup id="result">
+                <p:panel header="Resultado" rendered="#{avaliacaoBean.crudObj.avlCodAtividade ne null}">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:commandButton value="Atualizar" icon="pi pi-plus" actionListener="#{avaliacaoBean.createBarModel()}" update=":form1:result" process="@this" />
+                        <h:panelGroup id="relat">
+                            <p:panelGrid columns="1" layout="grid">
+                                <p:outputLabel value="Atividade : #{avaliacaoBean.crudObj.avlDesc} - #{avaliacaoBean.crudObj.avlId}" />
+                                <p:outputLabel value="Funcionário avaliado : #{avaliacaoBean.crudObj.funcionarioAvaliado}" />
+                                <p:outputLabel value="Data da Avaliação : #{avaliacaoBean.crudObj.avlData}" />
 
-                            <p:separator />
+                                <p:separator />
 
-                            <h:panelGroup rendered="#{avaliacaoBean.barModel ne null}">
-                                <div class="card">
-                                    <h5>Basic</h5>
-                                    <p:barChart id="chart" model="#{avaliacaoBean.barModel}" style="width: 100%; height: 500px;"/>
-                                </div>
-                            </h:panelGroup>
-                            <br />
-                            <p:outputLabel value="Grau médio de perigulosidade : #{avaliacaoBean.crudObj.grauDePerigulosidadeMedia}" />
-                        </p:panelGrid>
-                    </h:panelGroup>
+                                <h:panelGroup rendered="#{avaliacaoBean.barModel ne null}">
+                                    <div class="card">
+                                        <h:panelGroup style="display: inline-flex">
+                                            <p:barChart id="chart" model="#{avaliacaoBean.barModel}" style="width: 90%; height: 500px;"/>
+                                        </h:panelGroup>
+                                    </div>
+                                </h:panelGroup>
+                                <br />
+                                <p:outputLabel value="Grau médio de perigulosidade : #{avaliacaoBean.crudObj.grauDePerigulosidadeMedia}" />
+                            </p:panelGrid>
+                        </h:panelGroup>
 
-                    <p:commandButton type="button" value="Imprimir" icon="pi pi-print" styleClass="p-mr-2 p-mb-2">
-                        <p:printer target="relat" title="Relátorio de Perigulosidade da Atividade" />
-                    </p:commandButton>
-                </p:panelGrid>
-            </p:panel>
+                        <p:commandButton type="button" value="Imprimir" icon="pi pi-print" styleClass="p-mr-2 p-mb-2">
+                            <p:printer target="relat" title="Relátorio de Perigulosidade da Atividade" />
+                        </p:commandButton>
+                    </p:panelGrid>
+                </p:panel>
+            </h:panelGroup>
 
             <br />
 
@@ -171,7 +179,7 @@
                                     <p:keyFilter mask="pint" />
                                 </p:inputText>
 
-                                <p:outputLabel value="Razão social" for="@next" />
+                                <p:outputLabel value="Descrição" for="@next" />
                                 <p:inputText value="#{avaliacaoBean.filtroNome}" style="width: 100%" maxlength="100" />
                             </p:panelGrid>
                         </p:panelGrid>
@@ -194,7 +202,7 @@
                             <h:outputText value="#{item.avlId}" />
                         </p:column>
 
-                        <p:column headerText="Nome">
+                        <p:column headerText="Descrição">
                             <h:outputText value="#{item.avlDesc}" />
                         </p:column>
                     </p:dataTable>

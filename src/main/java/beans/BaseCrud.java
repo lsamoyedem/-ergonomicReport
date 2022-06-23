@@ -69,6 +69,7 @@ public abstract class BaseCrud<T> {
 
     public void abrirPesquisa() {
         limparPesquisa();
+        pesquisar();
         JsfUtil.showDlg("dlgPesquisa");
     }
 

@@ -11,6 +11,7 @@ import javax.inject.Named;
 import services.AtividadeService;
 import services.BaseService;
 import utils.Filtros;
+import utils.JsfUtil;
 
 /**
  *
@@ -33,6 +34,15 @@ public class AtividadeBean extends BaseCrud<Atividade> implements Serializable {
     @Override
     protected void setup() {
         tarefas = bs.findAll(Tarefa.class, "tarDesc");
+    }
+
+    @Override
+    public void salvar() {
+        if (getCrudObj().getTarefaxatividadeList().isEmpty()) {
+            JsfUtil.warn("Adicione pelo menos uma tarefa");
+            return;
+        }
+        super.salvar();
     }
 
     public void pesquisar() {

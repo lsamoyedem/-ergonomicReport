@@ -196,3 +196,8 @@ body .ui-state-disabled {
     opacity: 1;
     border-color: #cccccc !important;
 }
+
+.btn-excluir{
+    background-color: #ff2e2e;
+    border-color: #ff2e2e
+}

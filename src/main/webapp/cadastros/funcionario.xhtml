@@ -91,13 +91,13 @@
                     </p:column>
 
                     <p:column headerText="Data Início">
-                        <p:datePicker value="#{item.fxfDataIni}" locale="pt_BR" placeholder="__/__/____" required="true" requiredMessage="O campo Data Início é obrigatório">
+                        <p:datePicker value="#{item.fxfDataIni}" locale="pt_BR" placeholder="__/__/____" mask="99/99/9999" required="true" requiredMessage="O campo Data Início é obrigatório">
                             <p:ajax />
                         </p:datePicker>
                     </p:column>
 
                     <p:column headerText="Data Fim">
-                        <p:datePicker value="#{item.fxfDataFim}" locale="pt_BR" placeholder="__/__/____">
+                        <p:datePicker value="#{item.fxfDataFim}" locale="pt_BR" placeholder="__/__/____" mask="99/99/9999">
                             <p:ajax />
                         </p:datePicker>
                     </p:column>

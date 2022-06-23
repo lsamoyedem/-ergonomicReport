@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -124,6 +125,15 @@ public class Funcionario implements Serializable {
 
     public void removeFuncao(int index) {
         this.funcionarioxfuncaoList.remove(index);
+    }
+
+    public List<Atividade> getAtividade(Date data) {
+        for (Funcionarioxfuncao fxf : funcionarioxfuncaoList) {
+            if (data.compareTo(fxf.getFxfDataIni()) >= 0 && (fxf.getFxfDataFim() == null || data.compareTo(fxf.getFxfDataFim()) <= 0)) {
+                return fxf.getFxfCodFuncao().getAtivxfuncaoList().stream().map(f -> f.getAxfCodAtividade()).collect(Collectors.toList());
+            }
+        }
+        return null;
     }
 
     @Override

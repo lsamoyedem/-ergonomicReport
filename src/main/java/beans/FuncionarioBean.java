@@ -3,6 +3,7 @@ package beans;
 import dominios.Empresa;
 import dominios.Funcao;
 import dominios.Funcionario;
+import dominios.Funcionarioxfuncao;
 import dominios.Pessoa;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import services.EmpresaService;
 import services.FuncaoService;
 import services.FuncionarioService;
 import utils.Filtros;
+import utils.JsfUtil;
 
 /**
  *
@@ -42,6 +44,21 @@ public class FuncionarioBean extends BaseCrud<Funcionario> implements Serializab
         List<Filtros> filtros = new ArrayList<>();
         filtros.add(new Filtros("FNC_SITUACAO", "A"));
         funcoes = fcs.buscaFuncao(filtros);
+    }
+
+    @Override
+    public void salvar() {
+        if (getCrudObj().getFuncionarioxfuncaoList().isEmpty()) {
+            JsfUtil.warn("Adicione pelo menos uma função");
+            return;
+        }
+        for (Funcionarioxfuncao fxf : getCrudObj().getFuncionarioxfuncaoList()) {
+            if (fxf.getFxfDataFim() != null && fxf.getFxfDataIni().compareTo(fxf.getFxfDataFim()) > 0) {
+                JsfUtil.warn("A data inicial não pode ser maior que a data final");
+                return;
+            }
+        }
+        super.salvar();
     }
 
     @Override
