@@ -26,15 +26,23 @@
                 <ui:insert name="titulo-pagina" />
             </title>
 
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{mainBean.validaAcessoPagina()}" />
+            </f:metadata>
+
             <ui:insert name="head" />
         </h:head>
 
         <body>
-            <div class="header"></div>
+            <div class="header">
+                <a href="#{request.contextPath}/login.xhtml" style="float: right; margin: 16px">
+                    <i class="pi pi-sign-out" style="color: white; font-size: 20px"></i>
+                </a>
+            </div>
 
             <div id="sidebarMenu" style="margin-left: 250px">
                 <ul class="sidebarMenuInner">
-                    <li>Laudo Ergonômico<span>Lucas S</span></li>
+                    <li>Laudo Ergonômico<span>#{mainBean.usuarioLogado.usuUsuario}</span></li>
                     <li>
                         <a href="#">
                             <i class="topbar-icon fa fa-fw fa-industry"></i>
@@ -71,6 +79,14 @@
                                     <span class="item-menu-label">Funcionário</span>
                                 </a>
                             </li>
+                            <h:panelGroup rendered="#{mainBean.usuarioLogado.usuAdm}">
+                                <li class="item-menu">
+                                    <a href="#{request.contextPath}/cadastros/usuario.xhtml">
+                                        <i class="topbar-icon fa fa-fw fa-industry"></i>
+                                        <span class="item-menu-label">Usuário</span>
+                                    </a>
+                                </li>
+                            </h:panelGroup>
                         </ul>
                         <li>
                             <a href="#">
