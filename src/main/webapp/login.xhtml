@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view encoding="UTF-8">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+                <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+                <meta http-equiv="content-language" content="pt-br" />
+                <meta http-equiv="content-style-type" content="text/css" />
+                <meta http-equiv="cache-control" content="no-cache" />
+                <meta http-equiv="pragma" content="no-cache" />
+                <meta name="robots" content="all" />
+                <meta name="rating" content="general" />
+            </f:facet>
+
+            <script type="text/javascript" src="#{request.contextPath}/resource/js/javascript.js" />
+            <link rel="StyleSheet" type="text/css" href="#{request.contextPath}/resource/css/estilos.css" media="screen" />
+
+            <title>
+                Login
+            </title>
+        </h:head>
+
+        <body>
+            <style>
+                body {
+                    background: linear-gradient(180deg, #274976 0%, #304562 100%);
+                    padding: 0;
+                    margin: 0;
+                    font-family: 'Varela Round', sans-serif;
+                }
+                .card {
+                    width: 380px;
+                    height: 350px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            </style>
+            <h:form id="form1">
+                <p:growl id="mensagem" />
+                <p:card styleClass="card">
+                    <center>
+                        <h3>
+                            Laudo Ergonômico
+                        </h3>
+                    </center>
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel value="Usuário" for="@next" indicateRequired="false"  />
+                        <p:inputText value="#{loginBean.usuario}" required="true" style="width: 100%" />
+
+                        <p:outputLabel value="Senha" for="@next" indicateRequired="false"  />
+                        <p:password value="#{loginBean.senha}" required="true" style="width: 100%" />
+                        <br />
+                        <p:commandButton value="Entrar" process="@form" action="#{loginBean.logar()}" icon="pi pi-sign-in" update=":form1:mensagem @form" style="width: 100%" />
+                    </p:panelGrid>
+                </p:card>
+            </h:form>
+        </body>
+    </f:view>
+</html>
+
+
