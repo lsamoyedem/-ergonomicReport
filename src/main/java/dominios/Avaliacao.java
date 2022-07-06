@@ -3,6 +3,7 @@ package dominios;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -121,6 +122,14 @@ public class Avaliacao implements Serializable {
         this.cicloList = cicloList;
     }
 
+    public String getAvlDataFormat() {
+        if (avlData != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            return formatter.format(avlData);
+        }
+        return "";
+    }
+
     public int maiorSequenciaCiclo() {
         Integer seq = 0;
         for (Ciclo ciclo : cicloList) {
@@ -185,7 +194,7 @@ public class Avaliacao implements Serializable {
         return "00:00:00";
     }
 
-    public Double getGrauDePerigulosidadeMedia() {
+    public Double getGrauDePericulosidadeMedia() {
         Double somaTotal = 0.0;
         for (Ciclo ciclo : cicloList) {
             for (CicloDetalhe cicloDetalhe : ciclo.getCicloDetalheList()) {
