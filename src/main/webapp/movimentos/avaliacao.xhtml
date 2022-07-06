@@ -84,36 +84,36 @@
                                     </p:selectOneMenu>
                                 </p:column>
 
-                                <p:column headerText="Grau de Perigulosidade">
-                                    <p:outputLabel value="#{cicloDt.grauDePerigulosidade}" />
+                                <p:column headerText="Grau de Perigo" width="150">
+                                    <p:outputLabel value="#{cicloDt.grauDePericulosidade}" />
                                 </p:column>
 
-                                <p:column headerText="Hora inicial">
+                                <p:column headerText="Hora inicial" width="120">
                                     <p:inputMask id="horaIni" value="#{cicloDt.horaIni}" mask="99:99:99"
-                                                 placeholder="__:__:__" size="12"
+                                                 placeholder="__:__:__" size="7"
                                                  type="tel">
                                         <f:convertDateTime pattern="HH:mm:ss" type="time" />
                                         <p:ajax listener="#{cicloDt.atualizaSegundos()}" update=":form1:ciclos :form1:mensagem" />
                                     </p:inputMask>
                                 </p:column>
 
-                                <p:column headerText="Hora final">
+                                <p:column headerText="Hora final" width="120">
                                     <p:inputMask id="horaFim" value="#{cicloDt.horaFim}" mask="99:99:99"
-                                                 placeholder="__:__:__"  size="12"
+                                                 placeholder="__:__:__"  size="7"
                                                  type="tel">
                                         <f:convertDateTime pattern="HH:mm:ss" type="time" />
                                         <p:ajax listener="#{cicloDt.atualizaSegundos()}" update=":form1:ciclos :form1:mensagem" />
                                     </p:inputMask>
                                 </p:column>
 
-                                <p:column headerText="Tempo (Segundos)">
-                                    <p:inputText value="#{cicloDt.cdSegundos}">
+                                <p:column headerText="Tempo (Segundos)" width="100">
+                                    <p:inputText value="#{cicloDt.cdSegundos}" style="width: 100px">
                                         <p:keyFilter mask="pint" preventPaste="false" />
                                         <p:ajax update=":form1:ciclos" />
                                     </p:inputText>
                                 </p:column>
 
-                                <p:column headerText="Ação">
+                                <p:column headerText="Ação" width="100">
                                     <p:commandButton value="Remover" actionListener="#{ciclo.removeCicloDetalhe(indexDetalhe)}" icon="pi pi-trash" update=":form1:ciclos" process="@this" style="background-color: #ff2e2e; border-color: #ff2e2e" />
                                 </p:column>
                             </p:dataTable>
@@ -127,12 +127,12 @@
             <h:panelGroup id="result">
                 <p:panel header="Resultado" rendered="#{avaliacaoBean.crudObj.avlCodAtividade ne null}">
                     <p:panelGrid columns="1" layout="grid">
-                        <p:commandButton value="Atualizar" icon="pi pi-plus" actionListener="#{avaliacaoBean.createBarModel()}" update=":form1:result" process="@this" />
+                        <p:commandButton value="Atualizar" icon="pi pi-refresh" actionListener="#{avaliacaoBean.createBarModel()}" update=":form1:result" process="@this" />
                         <h:panelGroup id="relat">
                             <p:panelGrid columns="1" layout="grid">
                                 <p:outputLabel value="Atividade : #{avaliacaoBean.crudObj.avlDesc} - #{avaliacaoBean.crudObj.avlId}" />
                                 <p:outputLabel value="Funcionário avaliado : #{avaliacaoBean.crudObj.funcionarioAvaliado}" />
-                                <p:outputLabel value="Data da Avaliação : #{avaliacaoBean.crudObj.avlData}" />
+                                <p:outputLabel value="Data da Avaliação : #{avaliacaoBean.crudObj.avlDataFormat}" />
 
                                 <p:separator />
 
@@ -144,12 +144,12 @@
                                     </div>
                                 </h:panelGroup>
                                 <br />
-                                <p:outputLabel value="Grau médio de perigulosidade : #{avaliacaoBean.crudObj.grauDePerigulosidadeMedia}" />
+                                <p:outputLabel value="Grau médio de periculosidade : #{avaliacaoBean.crudObj.grauDePericulosidadeMedia}" />
                             </p:panelGrid>
                         </h:panelGroup>
 
                         <p:commandButton type="button" value="Imprimir" icon="pi pi-print" styleClass="p-mr-2 p-mb-2">
-                            <p:printer target="relat" title="Relátorio de Perigulosidade da Atividade" />
+                            <p:printer target="relat" title="Relátorio de Periculosidade da Atividade" />
                         </p:commandButton>
                     </p:panelGrid>
                 </p:panel>

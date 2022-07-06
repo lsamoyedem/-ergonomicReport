@@ -118,7 +118,7 @@ public class CicloDetalhe implements Serializable {
         return 0;
     }
 
-    public int getGrauDePerigulosidade() {
+    public int getGrauDePericulosidade() {
         if (cdCodTarefa != null) {
             return cdCodTarefa.getTarGrauPerigo();
         }
